@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Banco de dados
 const db = new sqlite3.Database("./calabreso.db", (err) => {
     if (err) {
         console.error("Erro ao abrir o banco de dados:", err.message);
@@ -14,6 +15,7 @@ const db = new sqlite3.Database("./calabreso.db", (err) => {
     }
 });
 
+// Criar tabela
 db.run(`
     CREATE TABLE IF NOT EXISTS usuarios (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -26,13 +28,16 @@ db.run(`
 app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
+// Validação de senha forte
 function senhaForte(senha) {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
     return regex.test(senha);
 }
 
+// Cadastro
 app.post("/register", (req, res) => {
     const { nome, email, senha } = req.body;
+
     console.log("Dados recebidos:", { nome, email });
 
     if (!nome || !email || !senha) {
@@ -68,15 +73,41 @@ app.post("/register", (req, res) => {
                     }
 
                     console.log("Usuário salvo com sucesso:", nome, email);
-                    return res.status(201).json({ mensagem: "Cadastro realizado com sucesso." });
+
+                    return res.status(201).json({
+                        mensagem: "Cadastro realizado com sucesso."
+                    });
                 }
             );
+
         } catch (erro) {
             console.error("Erro ao criptografar senha:", erro);
-            return res.status(500).json({ mensagem: "Erro ao criptografar a senha." });
+            return res.status(500).json({
+                mensagem: "Erro ao criptografar a senha."
+            });
         }
     });
 });
+
+
+// ROTA PARA VER USUÁRIOS CADASTRADOS
+app.get("/usuarios", (req, res) => {
+
+    db.all("SELECT id, nome, email FROM usuarios", [], (err, rows) => {
+
+        if (err) {
+            console.error(err);
+            return res.status(500).json({
+                erro: err.message
+            });
+        }
+
+        res.json(rows);
+
+    });
+
+});
+
 
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
