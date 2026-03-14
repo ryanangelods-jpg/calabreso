@@ -4,7 +4,7 @@ const path = require("path");
 const bcrypt = require("bcrypt");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Banco de dados
 const db = new sqlite3.Database("./calabreso.db", (err) => {
@@ -28,13 +28,13 @@ db.run(`
 app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
-// Função de validação de senha forte
+// Validação de senha forte
 function senhaForte(senha) {
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{8,}$/;
     return regex.test(senha);
 }
 
-// Rota de cadastro
+// Cadastro
 app.post("/register", (req, res) => {
     const { nome, email, senha } = req.body;
 
@@ -50,6 +50,7 @@ app.post("/register", (req, res) => {
 
     db.get("SELECT id FROM usuarios WHERE email = ?", [email], async (err, row) => {
         if (err) {
+            console.error(err);
             return res.status(500).json({ mensagem: "Erro ao verificar email." });
         }
 
@@ -65,6 +66,7 @@ app.post("/register", (req, res) => {
                 [nome, email, senhaCriptografada],
                 function (err) {
                     if (err) {
+                        console.error(err);
                         return res.status(500).json({ mensagem: "Erro ao salvar no banco de dados." });
                     }
 
@@ -72,11 +74,12 @@ app.post("/register", (req, res) => {
                 }
             );
         } catch (erro) {
+            console.error(erro);
             return res.status(500).json({ mensagem: "Erro ao criptografar a senha." });
         }
     });
 });
 
 app.listen(PORT, () => {
-    console.log(`Servidor rodando em http://localhost:${PORT}`);
+    console.log(`Servidor rodando na porta ${PORT}`);
 });

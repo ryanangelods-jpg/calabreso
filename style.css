@@ -10,12 +10,14 @@
 header{
     text-align: center;
     background-color: rgb(128, 44, 38);
+    padding: 10px;
 }
 
 footer{
     text-align: center;
     background-color: rgb(58, 19, 16);
     color: antiquewhite;
+    padding: 10px;
 }
 
 body{
@@ -25,17 +27,19 @@ body{
 
 section{
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
+    padding: 20px;
 }
 
 section div.background-section{
     width: 100%;
     height: 100%;
     position: absolute;
+    inset: 0;
     z-index: 0;
 }
 
@@ -74,11 +78,11 @@ h2{
 
 input{
     width: 100%;
-    border-color: rgb(255, 221, 189);
+    border: 1px solid rgb(255, 221, 189);
     border-radius: 15px;
     padding: 1rem;
     outline: none;
-    border-style: solid;
+    background-color: rgba(255,255,255,0.95);
 }
 
 button{
@@ -88,7 +92,7 @@ button{
     color: rgb(128, 44, 38);
     background-color: rgba(252, 252, 252, 0.226);
     outline: none;
-    border-color: rgb(128, 44, 38);
+    border: 1px solid rgb(128, 44, 38);
     transition: 0.4s;
 }
 
@@ -113,6 +117,8 @@ h1{
 
 i{
     align-self: baseline;
+    color: white;
+    font-size: 1.2rem;
 }
 
 .senha-box{
@@ -129,11 +135,120 @@ i{
 .btn-senha{
     padding: 1rem;
     border-radius: 15px;
-    border-color: rgb(255, 221, 189);
+    border: 1px solid rgb(255, 221, 189);
     color: rgb(255, 221, 189);
     min-width: 58px;
+    background-color: rgba(252, 252, 252, 0.15);
 }
 
 .btn-senha:hover{
     background-color: rgba(0, 0, 0, 0.411);
+}
+
+.btn-som{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10;
+    padding: 10px 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    border: 1px solid rgb(255, 221, 189);
+    background-color: rgba(116, 41, 18, 0.45);
+    color: rgb(255, 221, 189);
+    backdrop-filter: blur(8px);
+}
+
+.btn-som:hover{
+    background-color: rgba(58, 19, 16, 0.75);
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px){
+    h1{
+        font-size: 2rem;
+        padding: 10px;
+        line-height: 1.2;
+    }
+
+    header p,
+    footer p{
+        font-size: 0.9rem;
+        padding: 0 12px;
+    }
+
+    section{
+        min-height: 100vh;
+        height: auto;
+        padding: 20px 15px;
+    }
+
+    .conteudo{
+        width: 100%;
+        max-width: 340px;
+        padding: 18px;
+        gap: 12px;
+    }
+
+    input{
+        padding: 0.9rem;
+        font-size: 1rem;
+    }
+
+    button{
+        padding: 0.9rem;
+        font-size: 1rem;
+    }
+
+    .btn-senha{
+        padding: 0.9rem;
+        min-width: 52px;
+    }
+
+    .btn-som{
+        bottom: 15px;
+        right: 15px;
+        padding: 10px 14px;
+        font-size: 0.9rem;
+    }
+
+    header img{
+        width: 55px;
+    }
+
+    footer{
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px){
+    h1{
+        font-size: 1.6rem;
+    }
+
+    header p,
+    footer p{
+        font-size: 0.8rem;
+    }
+
+    .conteudo{
+        max-width: 100%;
+        border-radius: 12px;
+    }
+
+    .senha-box{
+        gap: 6px;
+    }
+
+    .btn-senha{
+        min-width: 48px;
+        padding: 0.8rem;
+    }
+
+    .btn-som{
+        width: calc(100% - 30px);
+        right: 15px;
+        left: 15px;
+        bottom: 12px;
+    }
 }

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calabreso</title>
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
     
@@ -16,8 +16,13 @@
 
     <section>
         <div class="background-section">
-            <video src="assets/ssstik.io_1773349413241.mp4" autoplay loop ></video>
+            <video id="bgVideo" autoplay muted loop playsinline>
+                <source src="/assets/ssstik.io_1773349413241.mp4" type="video/mp4">
+                Seu navegador não suporta vídeo.
+            </video>
         </div>
+
+        <button id="ativarSom" class="btn-som" type="button">Ativar som</button>
 
         <div class="box">
             <div class="conteudo">

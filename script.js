@@ -3,8 +3,10 @@ const emailInput = document.getElementById("email");
 const senhaInput = document.getElementById("senha");
 const btnRegistrar = document.getElementById("btnRegistrar");
 const toggleSenha = document.getElementById("toggleSenha");
+const video = document.getElementById("bgVideo");
+const btnSom = document.getElementById("ativarSom");
 
-// Segurar para mostrar a senha
+// Mostrar senha apenas enquanto segura
 function mostrarSenha() {
     senhaInput.type = "text";
 }
@@ -20,11 +22,27 @@ toggleSenha.addEventListener("mouseleave", esconderSenha);
 toggleSenha.addEventListener("touchstart", (e) => {
     e.preventDefault();
     mostrarSenha();
-});
+}, { passive: false });
 
 toggleSenha.addEventListener("touchend", esconderSenha);
 
-// Validação de senha forte
+// Som do vídeo
+if (video && btnSom) {
+    video.muted = true;
+
+    btnSom.addEventListener("click", async () => {
+        try {
+            video.muted = !video.muted;
+            video.volume = 1;
+            await video.play();
+            btnSom.textContent = video.muted ? "Ativar som" : "Desativar som";
+        } catch (erro) {
+            alert("O navegador bloqueou o som.");
+        }
+    });
+}
+
+// Senha forte
 function senhaForte(senha) {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
     return regex.test(senha);
@@ -62,11 +80,12 @@ btnRegistrar.addEventListener("click", async () => {
         }
 
         alert("Agora você é um Calabreso! 😎");
+
         nomeInput.value = "";
         emailInput.value = "";
         senhaInput.value = "";
     } catch (erro) {
-        alert("Erro ao conectar com o servidor.");
         console.error(erro);
+        alert("Erro ao conectar com o servidor.");
     }
 });
