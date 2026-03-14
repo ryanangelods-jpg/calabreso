@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname)));
 
 // Validação de senha forte
 function senhaForte(senha) {
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
     return regex.test(senha);
 }
 
