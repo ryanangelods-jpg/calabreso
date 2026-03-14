@@ -2,9 +2,9 @@
   "name": "calabreso",
   "version": "1.0.0",
   "description": "Projeto Calabreso com cadastro e banco SQLite",
-  "main": "servidor.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node servidor.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

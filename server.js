@@ -6,7 +6,6 @@ const bcrypt = require("bcrypt");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Banco de dados
 const db = new sqlite3.Database("./calabreso.db", (err) => {
     if (err) {
         console.error("Erro ao abrir o banco de dados:", err.message);
@@ -15,7 +14,6 @@ const db = new sqlite3.Database("./calabreso.db", (err) => {
     }
 });
 
-// Criar tabela
 db.run(`
     CREATE TABLE IF NOT EXISTS usuarios (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -28,15 +26,14 @@ db.run(`
 app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
-// Validação de senha forte
 function senhaForte(senha) {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
     return regex.test(senha);
 }
 
-// Cadastro
 app.post("/register", (req, res) => {
     const { nome, email, senha } = req.body;
+    console.log("Dados recebidos:", { nome, email });
 
     if (!nome || !email || !senha) {
         return res.status(400).json({ mensagem: "Preencha todos os campos." });
@@ -50,7 +47,7 @@ app.post("/register", (req, res) => {
 
     db.get("SELECT id FROM usuarios WHERE email = ?", [email], async (err, row) => {
         if (err) {
-            console.error(err);
+            console.error("Erro ao verificar email:", err);
             return res.status(500).json({ mensagem: "Erro ao verificar email." });
         }
 
@@ -66,15 +63,16 @@ app.post("/register", (req, res) => {
                 [nome, email, senhaCriptografada],
                 function (err) {
                     if (err) {
-                        console.error(err);
+                        console.error("Erro ao salvar no banco:", err);
                         return res.status(500).json({ mensagem: "Erro ao salvar no banco de dados." });
                     }
 
+                    console.log("Usuário salvo com sucesso:", nome, email);
                     return res.status(201).json({ mensagem: "Cadastro realizado com sucesso." });
                 }
             );
         } catch (erro) {
-            console.error(erro);
+            console.error("Erro ao criptografar senha:", erro);
             return res.status(500).json({ mensagem: "Erro ao criptografar a senha." });
         }
     });

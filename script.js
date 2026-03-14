@@ -6,7 +6,6 @@ const toggleSenha = document.getElementById("toggleSenha");
 const video = document.getElementById("bgVideo");
 const btnSom = document.getElementById("ativarSom");
 
-// Mostrar senha apenas enquanto segura
 function mostrarSenha() {
     senhaInput.type = "text";
 }
@@ -26,7 +25,6 @@ toggleSenha.addEventListener("touchstart", (e) => {
 
 toggleSenha.addEventListener("touchend", esconderSenha);
 
-// Som do vídeo
 if (video && btnSom) {
     video.muted = true;
 
@@ -42,7 +40,6 @@ if (video && btnSom) {
     });
 }
 
-// Senha forte
 function senhaForte(senha) {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
     return regex.test(senha);
